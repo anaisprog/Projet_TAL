@@ -1,24 +1,35 @@
 
 from os import path
+ 
+# ouverture du fichier texte 
+listPays_path = 'Pays/liste_pays.txt'
+LISTE_PAYS = []
+with open(path.join(path.dirname(__file__), listPays_path)) as file_pointer:
+		for lines in file_pointer.readlines():
+			line = lines.split("|")
+			LISTE_PAYS.append(line)
 
-cityDeparture= "paris"
-LISTE_PAYS = ["France", "Angleterre", "Espagne", "Italie", "Chine", "Russie"]
 LISTE_MOIS = ["Janvier" , "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre","Decembre"]
 mois = ""
 pays = ""
-moreInfo = False
+plusInfo = False
 
 #30 AVRIL 2018  : Cette partie de programme permet de retrouver des destinations interessantes selon le mois donnee en entree
 #Cette fonction nous permet de verifier que le pays de départ et le mois de depart ont bien ete saisis par l'utilisateur
 
 def info_manquantes(data):
   global count
+  global pays
+  global mois
   count = 2 # Par defaut toutes les informations sont manquantes
-  if (pays!="" and mois !=""):
-  	count =0 #pas d'info manquante
-  elif pays=="" or mois =="":
+  if pays=="" or mois =="":
   	count =1 #1 info manquante
-  print(count)
+  	print(count)
+
+  elif pays !="" and mois !="":
+  	print("la valeur de pays est"+ pays + "mois " + mois)
+  	count =0 #pas d'info manquante
+
   return count
 
 
@@ -44,22 +55,21 @@ def reponse(data):
 	mot = data.split(" ") 
 	for i in range (0, len(mot)):
 		for pays_ in LISTE_PAYS:
-			if(pays_.lower() in mot[i] or pays_.upper() in mot[i]): 
-				pays = mot[i]
-				#print("LE PAYS EST " + pays)
-	for j in range (0, len(mot)):	
+			for pays in pays_:
+				if(pays.lower() in mot[i] or pays.upper() in mot[i]): 
+					pays = mot[i]
+	for k in range (0, len(mot)):	
 		for mois_ in LISTE_MOIS:
-			if(mois_.lower() in mot[j] or mois_.upper() in mot[j]):
-				mois = mot[j]
+			if(mois_.lower() in mot[k] or mois_.upper() in mot[k]):
+				print("Le mois est "+ mot[k] + mois)
+				mois = mot[k]
 				
-
-	data={"pays_depart":pays, "mois_depart": mois}
 
 	print(info_manquantes(data))
 	if(info_manquantes(data)!=0):
 		print("Oups....\n" +"J'ai besoin des informations suivantes pour vous donner une destination \n : "
 		+ " Votre pays de depart et votre mois de départ... \n ")
-		if(pays =="" ) and (mois== ""):
+		if(pays =="") and (mois==""):
 			print("Il semblerait que vous n'ayez renseigné aucun des deux champs...")
 		elif(pays ==""):
 			print("Il semblerait que vous n'ayez par renseigné votre pays de départ...")
@@ -86,10 +96,10 @@ def rechercheDestination(data):
 							if(count_loc ==2):
 								x = input('Pour plus de destinations disponibles taper I \n')
 								if(x=='I' or x=='i'): 
-									moreInfo = True 
+									plusInfo = True 
 									count_loc+=1
-							if ((count_loc >2) and (moreInfo==True)): 
-								print(line[0].lower() + "avec une temperature moyenne de :" + line[1].lower())
+							if ((count_loc >2) and (plusInfo==True)): 
+								print(line[0].lower() + "avec une temperature moyenne de" + line[1].lower())
 				
 							if(count_loc==0): 
 								print("\n \n*************************Recherche en cours*********************\n"
