@@ -6,7 +6,7 @@ listPays_path = 'Pays/liste_pays.txt'
 LISTE_PAYS = []
 with open(path.join(path.dirname(__file__), listPays_path)) as file_pointer:
 		for lines in file_pointer.readlines():
-			line = lines.split("|")
+			line = lines.split(" | ")
 			LISTE_PAYS.append(line)
 
 LISTE_MOIS = ["Janvier" , "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre","Decembre"]
@@ -55,14 +55,13 @@ def reponse(data):
 	mot = data.split(" ") 
 	for i in range (0, len(mot)):
 		for pays_ in LISTE_PAYS:
-			for pays in pays_:
-				if(pays.lower() in mot[i] or pays.upper() in mot[i]): 
-					pays = mot[i]
-	for k in range (0, len(mot)):	
+			for country in pays_:
+				if(country.lower() in mot[i] or country.upper() in mot[i]): 
+					pays = mot[i]	
 		for mois_ in LISTE_MOIS:
-			if(mois_.lower() in mot[k] or mois_.upper() in mot[k]):
-				print("Le mois est "+ mot[k] + mois)
-				mois = mot[k]
+			if(mois_.lower() in mot[i] or mois_.upper() in mot[i]):
+				#print("Le mois est "+ mot[i] + mois)
+				mois = mot[i]
 				
 
 	print(info_manquantes(data))
