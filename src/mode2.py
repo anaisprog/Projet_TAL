@@ -4,7 +4,7 @@ import string
 
 
 
-GREETING_KEYWORDS = ["hello", "hi", "coucou", "salut", "hola", "wesh", "ca va ?", "bonjour"]
+GREETING_KEYWORDS = ["hello", "hi", "Coucou", "salut", "hola", "wesh", "ca va ?", "bonjour"]
 GREETING_RESPONSES = ["Hola l'humain!", "yooo", "*Atchoum*...salut ! ", " Bonjour Bonjour ! ", "Comment ca va aujourd'hui?"]
 
 #Sujet de discussion - 5 sujets, 10 mots clé, 2 réponses
@@ -23,6 +23,8 @@ WORK_RESPONSES = ["Tu préfererais avoir des vacances de 6 mois 2 fois par an ?"
 
 TRAVEL_KEYWORDS = ["voyage", "avion", "plage", "mer", "soleil", "valise", "hotel", "aeroport", "jetlag", "vacances"]
 TRAVEL_RESPONSES = ["Oh j'aimerais tellement allée aux Phillipines, t'y es allé toi ?", "J'adore les vacances, on devrait en avoir plus souvent tu ne penses pas ?"]
+
+OTHER_RESPONSES = ["Je préférerais changer de sujet", "Tu veux pas me parler d'autre chose ?", "Et sinon tu fais quoi dans la vie ?", "Tu peux m'en dire plus ?", "Je vois", "Très intéressant", "Et sinon t'aimerais que je te raconte une histoire ?", "Désolé mais ... je m'ennuie un peu là", "Ohhhh je viens de me souvenir que j'ai oublié de sortir mon dogbot"]
 
 # Le chatbot doit etre capable de reconnaitre ces differents mots-clés: 
 
@@ -53,34 +55,47 @@ class chatbot:
 
   def respond(self,str):
     # find a match among keys
+    repFound = 0;
     for i in range(0, len(self.keys)):
       match = self.keys[i].match(str)
       if match:
         resp = random.choice(self.values[i])
         pos = resp.find('%')
+        repFound = 1
         if pos == -1:
           print(resp[:pos] + "?")
         else:
           print(resp[:pos] + match.group(1) + "?")
+ 
 
     for word in GREETING_KEYWORDS:
       if word in str:
-            print(random.choice(GREETING_RESPONSES))
+        print(random.choice(GREETING_RESPONSES))
+        repFound = 1
     for word in LOVE_KEYWORDS:
       if word in str:
-            print(random.choice(LOVE_RESPONSES))
+        print(random.choice(LOVE_RESPONSES))
+        repFound = 1
     for word in WORK_KEYWORDS:
       if word in str:
-            print(random.choice(WORK_RESPONSES))
+        print(random.choice(WORK_RESPONSES))
+        repFound = 1
     for word in FAMILY_KEYWORDS:
       if word in str:
-            print(random.choice(FAMILY_RESPONSES))
+        print(random.choice(FAMILY_RESPONSES))
+        repFound = 1
     for word in HEALTH_KEYWORDS:
       if word in str:
-            print(random.choice(HEALTH_RESPONSES))
+        print(random.choice(HEALTH_RESPONSES))
+        repFound = 1
     for word in TRAVEL_KEYWORDS:
       if word in str:
-            print(random.choice(TRAVEL_RESPONSES))
+        print(random.choice(TRAVEL_RESPONSES))
+        repFound = 1
+
+
+    if repFound == 0:
+     print(random.choice(OTHER_RESPONSES))
 
 
   #Realisation d'une table de reponses:
@@ -140,9 +155,13 @@ reponsesPossibles= [
     [r'Je pense à(.*)', 
       [ "Pouquoi penses-tu à %"]],
 
+    [r'Je me sens (.*)', 
+      [ "Pouquoi te sens-tu %"
+        "Tu te sens souvent %"]],
 
-    #Quelques famille
-
+    [r'Je veux (.*)', 
+      [ "Pouquoi tu veux %"
+        "Qu'est ce que tu ferais si tu avais %"]],
 
 
 ]
@@ -153,14 +172,14 @@ reponsesPossibles= [
 if __name__ == "__main__":
   #interface_chatbot()def interface_chatbot():
     #phrase entree par l'utilisateur 
-  print('Coucou petit humain... Je suis un chatbot qui a été concu rien que pour discuter avec toi!  \n" ----Press exit to stop the chatbot')
+  print('Coucou petit humain... Je suis un chatbot qui a été concu rien que pour discuter avec toi!  \n" ----Si tu veux me quitter, entre exit !')
   s = ''
   chatbot = chatbot()
   while s != 'exit':
     try:
       s = input('> ')
     except EOFError:
-      s = 'exit'
+      s = 'exit'  
     #print(s)
     #while s[-1] in '!.':
      # s = s[:-1]
