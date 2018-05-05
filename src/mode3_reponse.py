@@ -1,8 +1,9 @@
 
 from os import path
- 
+import time
+
 # ouverture du fichier texte 
-listPays_path = 'mode3_liste_pays.txt'
+listPays_path = 'data/baseDonnees.txt'
 LISTE_PAYS = []
 with open(path.join(path.dirname(__file__), listPays_path)) as file_pointer:
 		for lines in file_pointer.readlines():
@@ -27,7 +28,6 @@ def info_manquantes(data):
   	print(count)
 
   elif pays !="" and mois !="":
-  	print("la valeur de pays est"+ pays + "mois " + mois)
   	count =0 #pas d'info manquante
 
   return count
@@ -56,11 +56,10 @@ def reponse(data):
 	for i in range (0, len(mot)):
 		for pays_ in LISTE_PAYS:
 			for country in pays_:
-				if(country.lower() in mot[i] or country.upper() in mot[i]): 
+				if(country.lower() in mot[i].lower()): 
 					pays = mot[i]	
 		for mois_ in LISTE_MOIS:
-			if(mois_.lower() in mot[i] or mois_.upper() in mot[i]):
-				#print("Le mois est "+ mot[i] + mois)
+			if(mois_.lower() in mot[i].lower()):
 				mois = mot[i]
 				
 
@@ -75,19 +74,25 @@ def reponse(data):
 		elif(mois== ""):
 			print("Il semblerait que vous n'ayez par renseigné votre mois de départ...")
 	elif(info_manquantes(data) == 0): 
-		print("Tous les champs ont ete saisis. Recherche en cours...")
+		print("Tous les champs ont ete saisis. \n"
+			+ "\n*************************Recherche en cours*********************\n")
+		
+		for x in range(4,0,-1): # On fait patienter l'utilisateur 
+			print(x*"**")
+			time.sleep(1) #attends 1 seconde 
+
 		rechercheDestination(data)
 
 def rechercheDestination(data):
 	global mois
 	global pays
 	count_loc =0
-	with open(path.join(path.dirname(__file__), "../data/baseDonnees.txt")) as file_pointer:
+	with open(path.join(path.dirname(__file__), "data/baseDonnees.txt")) as file_pointer:
 		for lines in file_pointer.readlines():
 			line = lines.split("|")
 			for word in line[2:]:
 				if(count ==0):	
-					if(mois in word.lower() or mois is word.upper()): 
+					if(mois.lower() in word.lower()): 
 						if(line[0].lower()!= pays): # on verifie qu'il ne sagit pas du pays d'origine de l'utilisateur
 							if(count_loc ==1):
 								print("D'autres destinations peuvent egalement satisfaire votre recherche.")
@@ -98,13 +103,13 @@ def rechercheDestination(data):
 									plusInfo = True 
 									count_loc+=1
 							if ((count_loc >2) and (plusInfo==True)): 
+								for x in range(1,0,-1): # On fait patienter l'utilisateur 
+									time.sleep(1) #attends 1 seconde 
+
 								print(line[0].lower() + "avec une temperature moyenne de" + line[1].lower())
 				
 							if(count_loc==0): 
-								print("\n \n*************************Recherche en cours*********************\n"
-								+"Nous vous avons trouve une destination  : "  + line[0].lower() +"avec une temperature moyenne de" + line[1].lower() 
+								print("Je vous ai trouve une destination  : "  + line[0].lower() +"avec une temperature moyenne de" + line[1].lower() 
 								+ "pendant le mois de votre sejour ")
 								count_loc +=1
-			
-        #if((mois in word for word in line[1:])==0):
-			#print("Nous vous avons trouve une destination : "  + line[0].lower())            
+           
