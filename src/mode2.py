@@ -73,23 +73,23 @@ class chatbot:
         print(random.choice(GREETING_RESPONSES))
         repFound = 1
     for word in LOVE_KEYWORDS:
-      if word in str:
+      if word in str and repFound ==0:
         print(random.choice(LOVE_RESPONSES))
         repFound = 1
     for word in WORK_KEYWORDS:
-      if word in str:
+      if word in str and repFound ==0:
         print(random.choice(WORK_RESPONSES))
         repFound = 1
     for word in FAMILY_KEYWORDS:
-      if word in str:
+      if word in str and repFound ==0:
         print(random.choice(FAMILY_RESPONSES))
         repFound = 1
     for word in HEALTH_KEYWORDS:
-      if word in str:
+      if word in str and repFound ==0:
         print(random.choice(HEALTH_RESPONSES))
         repFound = 1
     for word in TRAVEL_KEYWORDS:
-      if word in str:
+      if word in str and repFound ==0:
         print(random.choice(TRAVEL_RESPONSES))
         repFound = 1
 
