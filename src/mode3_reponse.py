@@ -3,7 +3,7 @@ from os import path
 import time
 
 # ouverture du fichier texte 
-listPays_path = 'data/baseDonnees.txt'
+listPays_path = 'data/liste_pays.txt'
 LISTE_PAYS = []
 with open(path.join(path.dirname(__file__), listPays_path)) as file_pointer:
 		for lines in file_pointer.readlines():
@@ -25,7 +25,6 @@ def info_manquantes(data):
   count = 2 # Par defaut toutes les informations sont manquantes
   if pays=="" or mois =="":
   	count =1 #1 info manquante
-  	print(count)
 
   elif pays !="" and mois !="":
   	count =0 #pas d'info manquante
