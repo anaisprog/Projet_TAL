@@ -49,7 +49,7 @@ def mode1():
 			print(reponse5())
 			repfind = True
 
-		repfind = False
+		lastRep = nombre
 
 test = mode1()
 
